@@ -63,3 +63,17 @@ predicted_class = encoders['class'].inverse_transform(prediction)
 
 st.success(f"Predicted Car Class: {predicted_class[0]}")
 
+
+st.markdown("---", unsafe_allow_html=True)
+
+st.markdown(
+    """
+    <div style='text-align: center; padding-top: 20px;'>
+        <h4 style='color: #FF4B4B;'>🚗 Made with ❤️ by <span style="font-weight: bold;">Shraddha</span></h4>
+        <p style='font-size: 14px; color: grey;'>Fuelled by data. Driven by passion.</p>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+
