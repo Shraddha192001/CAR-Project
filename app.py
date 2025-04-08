@@ -14,20 +14,21 @@ from sklearn.ensemble import RandomForestClassifier
 
 # Column names for the dataset
 column_names = ['buying', 'maint', 'doors', 'persons', 'lug_boot', 'safety', 'class']
-
-# Correct URL from UCI ML repo
 url = "https://archive.ics.uci.edu/ml/machine-learning-databases/car/car.data"
 
-# Load the dataset
+# Load dataset
 df = pd.read_csv(url, names=column_names)
 
-# Encode categorical features
-le = LabelEncoder()
-df_encoded = df.apply(le.fit_transform)
+# Encode using separate LabelEncoders
+encoders = {}
+for col in df.columns:
+    le = LabelEncoder()
+    df[col] = le.fit_transform(df[col])
+    encoders[col] = le
 
 # Split features and target
-X = df_encoded.drop('class', axis=1)
-y = df_encoded['class']
+X = df.drop('class', axis=1)
+y = df['class']
 
 # Train model
 model = RandomForestClassifier(random_state=42)
@@ -52,11 +53,13 @@ user_input = pd.DataFrame({
     'safety': [safety]
 })
 
-# Encode user input
-user_input_encoded = user_input.apply(le.transform)
+# Encode user input using the same encoders
+for col in user_input.columns:
+    user_input[col] = encoders[col].transform(user_input[col])
 
-# Make prediction
-prediction = model.predict(user_input_encoded)
-predicted_class = le.inverse_transform(prediction)
+# Predict
+prediction = model.predict(user_input)
+predicted_class = encoders['class'].inverse_transform(prediction)
 
 st.success(f"Predicted Car Class: {predicted_class[0]}")
+
