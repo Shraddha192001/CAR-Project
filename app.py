@@ -12,25 +12,30 @@ import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 from sklearn.ensemble import RandomForestClassifier
 
-# Step 1: Load and Preprocess Data
-url = "https://archive.ics.uci.edu/ml/machine-learning-databases/19/car.data"
+# Column names for the dataset
 column_names = ['buying', 'maint', 'doors', 'persons', 'lug_boot', 'safety', 'class']
+
+# Correct URL from UCI ML repo
+url = "https://archive.ics.uci.edu/ml/machine-learning-databases/car/car.data"
+
+# Load the dataset
 df = pd.read_csv(url, names=column_names)
 
 # Encode categorical features
 le = LabelEncoder()
 df_encoded = df.apply(le.fit_transform)
 
-# Step 2: Split Data into Features and Target
+# Split features and target
 X = df_encoded.drop('class', axis=1)
 y = df_encoded['class']
 
-# Step 3: Train the Best Model (Random Forest)
+# Train model
 model = RandomForestClassifier(random_state=42)
 model.fit(X, y)
 
-# Step 4: Streamlit UI
-st.title("Car Evaluation Prediction")
+# Streamlit UI
+st.title("Car Evaluation Prediction App")
+
 buying = st.selectbox('Buying', ['low', 'med', 'high', 'vhigh'])
 maint = st.selectbox('Maintenance', ['low', 'med', 'high', 'vhigh'])
 doors = st.selectbox('Doors', ['2', '3', '4', '5more'])
@@ -38,7 +43,6 @@ persons = st.selectbox('Persons', ['2', '4', 'more'])
 lug_boot = st.selectbox('Lug Boot', ['small', 'med', 'big'])
 safety = st.selectbox('Safety', ['low', 'med', 'high'])
 
-# Process user input and predict
 user_input = pd.DataFrame({
     'buying': [buying],
     'maint': [maint],
@@ -48,12 +52,11 @@ user_input = pd.DataFrame({
     'safety': [safety]
 })
 
-# Encode user input using the same encoder
+# Encode user input
 user_input_encoded = user_input.apply(le.transform)
 
 # Make prediction
 prediction = model.predict(user_input_encoded)
-prediction_label = le.inverse_transform(prediction)
+predicted_class = le.inverse_transform(prediction)
 
-# Display prediction result
-st.write(f"Predicted Class: {prediction_label[0]}")
+st.success(f"Predicted Car Class: {predicted_class[0]}")
