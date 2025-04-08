@@ -69,8 +69,9 @@ st.markdown("---", unsafe_allow_html=True)
 st.markdown(
     """
     <div style='text-align: center; padding-top: 20px;'>
-        <h4 style='color: #FF4B4B;'>🚗 Made with ❤️ by <span style="font-weight: bold;">Shraddha</span></h4>
-        <p style='font-size: 14px; color: grey;'>Fuelled by data. Driven by passion.</p>
+        <h4 style='color: #ff4b4b;'>🧠 Made with 💖 by <b>Shraddha</b></h4>
+        <p style='font-size: 14px; color: #888;'>Fuelled by data. Driven by dreams 🚀</p>
+        <p style='font-size: 12px; color: #ccc;'>© 2025 | All rights reserved</p>
     </div>
     """,
     unsafe_allow_html=True
